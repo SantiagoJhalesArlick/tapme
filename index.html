@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tap Me - Project Team</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e0e0e0;
+      line-height: 1.6;
+      flex-direction: column;
+    }
+
+    .container {
+      /* Slightly increased max-width again to give cards a bit more room */
+      max-width: 1400px; /* Adjusted from 1300px, can be further adjusted */
+      width: 100%;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      color: #a5caca;
+      letter-spacing: 1.5px;
+      overflow: hidden;
+      border-right: .15em solid #a5caca;
+      white-space: nowrap;
+      margin: 0 auto 3rem auto;
+      animation:
+        typing 3.5s steps(23, end) forwards,
+        blink-caret .75s step-end forwards;
+      width: 0;
+      max-width: 100%;
+    }
+
+    /* Keyframes for the typing effect */
+    @keyframes typing {
+      from {
+        width: 0
+      }
+
+      to {
+        width: 100%
+      }
+    }
+
+    /* Keyframes for the blinking caret */
+    @keyframes blink-caret {
+
+      from,
+      to {
+        border-color: transparent
+      }
+
+      50% {
+        border-color: #a5caca;
+      }
+    }
+
+    .grid-container {
+      display: grid;
+      /* Adjusted minmax to allow for wider cards when necessary */
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Adjusted from 290px min */
+      gap: 20px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+
+    .team-member-card {
+      display: flex;
+      align-items: center;
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.7), 0 8px 16px -4px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      width: 100%;
+      /* Significantly increased max-width for individual cards to give text more room */
+      max-width: 380px; /* Adjusted from 320px - crucial for long names */
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+    .team-member-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 22px 45px -10px rgba(0, 0, 0, 0.9), 0 10px 20px -5px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Keyframes for the rotation animation */
+    @keyframes rotate-arc {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Container for the image and its spinning border */
+    .spinning-border {
+      position: relative;
+      overflow: hidden;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      margin-right: 15px; /* Slightly reduced margin between image and text */
+      flex-shrink: 0;
+    }
+
+    /* Pseudo-elements for the animated border */
+    .spinning-border::before,
+    .spinning-border::after {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: calc(100% + 16px);
+      height: calc(100% + 16px);
+      border-radius: 50%;
+      z-index: 0;
+      animation: rotate-arc 6s linear infinite;
+      pointer-events: none;
+    }
+
+    /* Styling for the primary arc of the border */
+    .spinning-border::before {
+      background: conic-gradient(transparent 0%, transparent 270deg, #00ffff 270deg, #00ffff 360deg);
+    }
+
+    /* Styling for the secondary, blurred arc of the border (for glow effect) */
+    .spinning-border::after {
+      background: conic-gradient(transparent 0%, transparent 270deg, #00e6e6 270deg, #00e6e6 360deg);
+      filter: blur(10px);
+      opacity: 0.95;
+      animation-delay: -3s;
+    }
+
+    /* Styling for the image itself within the spinning border container */
+    .spinning-border img {
+      position: relative;
+      z-index: 1;
+      border-radius: inherit;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 6px solid #333333;
+    }
+
+    .text-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-grow: 1;
+      min-width: 0; /* Allows content to shrink within flexbox if needed */
+    }
+
+    .team-member-card h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #00bfff;
+      margin-bottom: 5px;
+      margin-top: 0;
+      /* Re-added white-space: nowrap; and ellipsis */
+      white-space: nowrap; 
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .team-member-card p {
+      font-size: 0.9rem;
+      color: #a0a0a0;
+      margin-top: 0;
+      /* Re-added white-space: nowrap; and ellipsis */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 650px) {
+      .grid-container {
+        grid-template-columns: 1fr;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .team-member-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+        max-width: 280px; /* Adjust as needed for single column */
+      }
+
+      .spinning-border {
+        margin-right: 0;
+        margin-bottom: 15px;
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    @media (min-width: 651px) and (max-width: 991px) {
+      .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: center;
+        gap: 20px;
+      }
+      .team-member-card {
+        max-width: 380px; /* Give more room for 2 columns */
+      }
+    }
+
+    @media (min-width: 992px) and (max-width: 1399px) { /* Adjusted breakpoint for 3 columns */
+      .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+        justify-content: center;
+        gap: 20px;
+      }
+      .team-member-card {
+        max-width: 380px; /* Ensures enough room for 3 columns */
+      }
+    }
+
+    @media (min-width: 1400px) { /* Changed to 1400px to activate 4 columns more consistently */
+      .grid-container {
+        grid-template-columns: repeat(4, 1fr);
+        justify-content: center;
+        gap: 20px;
+      }
+    }
+    .header-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 3rem;
+}
+
+.logo-image {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  animation: none; /* Prevents logo from typing effect issues */
+}
+
+.header-title h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #a5caca;
+  letter-spacing: 1.5px;
+  margin: 0;
+  border-right: .15em solid #a5caca;
+  white-space: nowrap;
+  overflow: hidden;
+  animation:
+    typing 3.5s steps(23, end) forwards,
+    blink-caret .75s step-end forwards;
+  width: 0;
+  max-width: 100%;
+}
+
+  </style>
+</head>
+
+<body>
+<div class="header-title">
+  <img src="logo.png" alt="Tap Me Logo" class="logo-image" />
+  <h1>TAP ME | TEAM MEMBERS</h1>
+</div>
+    
+    <div class="grid-container">
+
+      <div class="team-member-card">
+        <div class="spinning-border">
+          <img src="sir.png" alt="Gerald Dela Cruz" />
+        </div>
+        <div class="text-content">
+          <h2>Gerald Dela Cruz</h2>
+          <p>Scrum Master | Shareholder</p>
+        </div>
+      </div>
+
+      <div class="team-member-card">
+        <div class="spinning-border">
+          <img src="icon.png" alt="Jhales Santiago" />
+        </div>
+        <div class="text-content">
+          <h2>Jhales Santiago</h2>
+          <p>Team Leader | Innovator</p>
+        </div>
+      </div>
+
+      <div class="team-member-card">
+        <div class="spinning-border">
+          <img src="icon.png" alt="Sofia Signo" />
+        </div>
+        <div class="text-content">
+          <h2>Sofia Signo</h2>
+          <p>Designer | Innovator</p>
+        </div>
+      </div>
+
+      <div class="team-member-card">
+        <div class="spinning-border">
+          <img src="icon.png" alt="Dien Buenaventura" />
+        </div>
+        <div class="text-content">
+          <h2>Dien Buenaventura</h2>
+          <p>Documentalist | Ux</p>
+        </div>
+      </div>
+
+      <div class="team-member-card">
+        <div class="spinning-border">
+          <img src="icon.png" alt="Laurence Calo" />
+        </div>
+        <div class="text-content">
+          <h2>Laurence Calo</h2>
+          <p>Documentalist | Analyst</p>
+        </div>
+      </div>
+
+      <div class="team-member-card">
+        <div class="spinning-border">
+          <img src="icon.png" alt="Perry Pesino" />
+        </div>
+        <div class="text-content">
+          <h2>Perry Pesino</h2>
+          <p>Documentalist</p>
+        </div>
+      </div>
+
+      <div class="team-member-card">
+        <div class="spinning-border">
+          <img src="icon.png" alt="John Gultiano" />
+        </div>
+        <div class="text-content">
+          <h2>John Gultiano</h2>
+          <p>Documentalist | Specialist</p>
+        </div>
+      </div>
+
+      <div class="team-member-card">
+        <div class="spinning-border">
+          <img src="icon.png" alt="Mark Morate" />
+        </div>
+        <div class="text-content">
+          <h2>Mark Morate</h2>
+          <p>Documentalist | Enhancer</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+</html>
